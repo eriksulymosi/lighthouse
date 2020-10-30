@@ -146,7 +146,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CreateDirective extends BaseDirective implements FieldResolver
 {
-    public function resolveField(FieldValue $fieldValue)
+    public function resolveField(FieldValue $fieldValue): FieldValue
     {
         return $fieldValue->setResolver(
             function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Model {
@@ -178,23 +178,20 @@ We can extend our previous implementation of [@create](../api-reference/directiv
 
 namespace Nuwave\Lighthouse\Schema\Directives;
 
-use Illuminate\Database\Eloquent\Model;
-use Nuwave\Lighthouse\Execution\Arguments\ResolveNested;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\ArgResolver;
 use Nuwave\Lighthouse\Support\Contracts\FieldResolver;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CreateDirective extends BaseDirective implements FieldResolver, ArgResolver
 {
-    public function resolveField(FieldValue $fieldValue) { ... }
+    public function resolveField(FieldValue $fieldValue): FieldValue { ... }
 
     /**
      * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  \Nuwave\Lighthouse\Execution\Arguments\ArgumentSet[]  $argsList
-     * @return \Illuminate\Database\Eloquent\Model[]
+     * @param  array<\Nuwave\Lighthouse\Execution\Arguments\ArgumentSet>  $argsList
+     * @return array<\Illuminate\Database\Eloquent\Model>
      */
-    public function __invoke($parent, $argsList)
+    public function __invoke($parent, $argsList): array
     {
         $relationName = $this->getRelationName();
 

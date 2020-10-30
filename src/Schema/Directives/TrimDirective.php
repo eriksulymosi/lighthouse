@@ -2,19 +2,19 @@
 
 namespace Nuwave\Lighthouse\Schema\Directives;
 
-use Nuwave\Lighthouse\Support\Contracts\ArgTransformerDirective;
-use Nuwave\Lighthouse\Support\Contracts\DefinedDirective;
+use Nuwave\Lighthouse\Support\Contracts\ArgDirective;
+use Nuwave\Lighthouse\Support\Contracts\ArgSanitizerDirective;
 
-class TrimDirective extends BaseDirective implements ArgTransformerDirective, DefinedDirective
+class TrimDirective extends BaseDirective implements ArgSanitizerDirective, ArgDirective
 {
     public static function definition(): string
     {
-        return /** @lang GraphQL */ <<<'SDL'
+        return /** @lang GraphQL */ <<<'GRAPHQL'
 """
 Run the `trim` function on an input value.
 """
 directive @trim on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
-SDL;
+GRAPHQL;
     }
 
     /**
@@ -22,7 +22,7 @@ SDL;
      *
      * @param  string  $argumentValue
      */
-    public function transform($argumentValue): string
+    public function sanitize($argumentValue): string
     {
         return trim($argumentValue);
     }
